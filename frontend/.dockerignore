@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.turbo
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+README.md
+.git
+.gitignore

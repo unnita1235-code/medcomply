@@ -1,0 +1,66 @@
+# Local full stack: Next.js (browser → API on host) + FastAPI + Postgres for integration testing
+# Set secrets in a project-root .env file (not committed) or in your shell. Example keys:
+#   copy docker.env.example to .env in this directory, then: docker compose up --build
+# Compose loads .env automatically for ${VAR} substitution below.
+#
+# The FastAPI app does not connect to this Postgres by default; it is on the same Docker network
+# as `backend` (hostname `db`, port 5432) for migrations, SQL clients, and future service wiring.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-medcomply}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-medcomply}
+      POSTGRES_DB: ${POSTGRES_DB:-medcomply}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - medcomply_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medcomply} -d ${POSTGRES_DB:-medcomply}"]
+      interval: 5s
+      timeout: 5s
+      retries: 8
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      # Browser calls http://localhost:8000; must allow the Next.js dev/prod origin
+      API_CORS_ORIGINS: ${API_CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      CHROMA_PERSIST_DIRECTORY: /data/chroma
+      AUDIT_LOG_DIRECTORY: /data/audit
+      # For tools / future app code that reads DATABASE_URL
+      DATABASE_URL: postgresql://${POSTGRES_USER:-medcomply}:${POSTGRES_PASSWORD:-medcomply}@db:5432/${POSTGRES_DB:-medcomply}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      API_ALLOW_DEV_USER: ${API_ALLOW_DEV_USER:-1}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+    volumes:
+      - medcomply_chroma:/data/chroma
+      - medcomply_audit:/data/audit
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      # Runtime override if your client build needed a different URL; usually matches build arg
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    depends_on:
+      - backend
+
+volumes:
+  medcomply_pgdata:
+  medcomply_chroma:
+  medcomply_audit:

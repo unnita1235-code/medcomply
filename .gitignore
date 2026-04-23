@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/.venv/
+**/__pycache__/
+**/*.pyc
+.Python
+
+# Env
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Build / tool
+.next/
+frontend/.next/
+out/
+dist/
+.turbo
+.vercel
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Chroma / local vector data
+**/.chroma_data/
+
+# Python
+*.egg-info/
+.eggs/
+*.egg
+pip-wheel-metadata/

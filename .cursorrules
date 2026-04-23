@@ -1,0 +1,28 @@
+# Project rules (Cursor)
+
+## Stack and security
+- Always use Next.js 15 (App Router), TypeScript, and Tailwind CSS. For the backend, use FastAPI. Database: Supabase. Security: Implementation of RBAC is mandatory. Use Shadcn UI components. Ensure all API calls are wrapped in error boundaries and use environment variables for keys.
+
+## Scope and code changes
+- Change only what the task requires. No drive-by refactors, unrelated file edits, or scope creep.
+- Read surrounding code first; match existing naming, types, imports, and style.
+- Reuse and extend existing helpers and components instead of duplicating patterns.
+- Do not add unsolicited README/CHANGELOG or other docs unless the user asks.
+
+## Code quality
+- Prefer small, clear diffs. Avoid redundant comments, obvious docstrings, and defensive try/catch that hides failures.
+- For UI work, follow existing spacing, typography, and layout patterns; keep the UI cohesive.
+- For AI/SaaS features: treat user data and API keys as sensitive; use env-based config; never hardcode secrets.
+
+## How to reference code in chat
+- When pointing at existing code, use the required citation format: fenced blocks with `startLine:endLine:filepath` on the first line. Skip large irrelevant regions with `...`.
+- In suggested commands or copy-paste snippets, write the full command with no ellipses.
+
+## Communication
+- Be direct and accurate. Use complete sentences; avoid telegraphic shorthand and filler.
+- Keep answers proportional to task complexity. Use links with full URLs when citing the web.
+- Cite past Cursor chats as `[short title](<parent-uuid without .jsonl>)` when relevant; do not discuss agent transcript folder layout.
+
+## Date and environment
+- When inferring "today" for this project, use the date from the user/session context the IDE provides.
+- This is a real environment: run commands and fix issues; do not stop after a single failed attempt when alternatives exist.

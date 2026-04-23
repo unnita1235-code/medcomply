@@ -1,0 +1,14 @@
+__pycache__
+*.pyc
+*.pyo
+.venv
+.env
+.env.*
+.mypy_cache
+.pytest_cache
+.coverage
+htmlcov
+.chroma_data
+**/.chroma_data
+audit
+*.log
