@@ -2,6 +2,10 @@
 
 This repository is arranged as a monorepo: `frontend` (Next.js 15, App Router, Tailwind, shadcn UI), `backend` (FastAPI under the `api` package), and `supabase` SQL migrations (organizations, app users, documents, and RBAC).
 
+## Continuous integration
+
+Every push and pull request to `main` runs [GitHub Actions](https://github.com/unnita1235-code/medcomply/actions): Python compile + import check, `npm run lint` + `npm run build` for the frontend, and a full **Docker** build of `backend` and `frontend` images. [Dependabot](.github/dependabot.yml) opens weekly PRs for npm, pip, and Action updates.
+
 ## Prereqs
 
 - Node 20+ and npm

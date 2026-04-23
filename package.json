@@ -5,6 +5,8 @@
   "scripts": {
     "dev:fe": "npm run dev --prefix frontend",
     "dev:be": "cd backend && py -m uvicorn api.main:app --reload --host 127.0.0.1 --port 8000",
-    "build:fe": "npm run build --prefix frontend"
+    "build:fe": "npm run build --prefix frontend",
+    "ci:be": "cd backend && python -m compileall -q api && python -c \"from api.main import app\"",
+    "ci:fe": "npm run lint --prefix frontend && npm run build --prefix frontend"
   }
 }
