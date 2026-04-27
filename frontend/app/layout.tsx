@@ -4,8 +4,6 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 import "./globals.css"
 
-export const runtime = 'edge';
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,7 +15,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "MedComply — Medical compliance",
+  title: "MedComply – Medical compliance",
   description: "Vertical SaaS for medical compliance and document governance",
 }
 
