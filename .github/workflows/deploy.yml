@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-frontend:
-    name: Deploy Frontend to Cloudflare Pages
+    name: Deploy Frontend to Cloudflare Workers
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,25 +29,20 @@ jobs:
 
       - name: Install @opennextjs/cloudflare
         working-directory: frontend
-        run: npm install --save-dev @opennextjs/cloudflare
+        run: npm install -D @opennextjs/cloudflare
 
       - name: Build with OpenNext for Cloudflare
         working-directory: frontend
-        run: npx opennextjs-cloudflare build
+        run: npx @opennextjs/cloudflare build
         env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_AUTH_PROVIDER: ${{ secrets.NEXT_PUBLIC_AUTH_PROVIDER }}
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
-      - name: Copy worker to assets directory
-        working-directory: frontend
-        run: |
-          cp .open-next/worker.js .open-next/assets/_worker.js
-
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .open-next/assets --project-name=medcomply --branch=main --commit-dirty=true
+          accountId: ${{ secrets.ACCOUNT_ID }}
           workingDirectory: frontend
+          command: deploy --name medcomply
