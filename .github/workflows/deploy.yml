@@ -27,13 +27,13 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Install @cloudflare/next-on-pages
+      - name: Install @opennextjs/cloudflare
         working-directory: frontend
-        run: npm install --save-dev @cloudflare/next-on-pages
+        run: npm install --save-dev @opennextjs/cloudflare
 
-      - name: Build for Cloudflare Pages
+      - name: Build with OpenNext for Cloudflare
         working-directory: frontend
-        run: npx @cloudflare/next-on-pages
+        run: npx opennextjs-cloudflare build
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_AUTH_PROVIDER: ${{ secrets.NEXT_PUBLIC_AUTH_PROVIDER }}
@@ -44,4 +44,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy frontend/.vercel/output/static --project-name=medcomply --branch=main
+          command: pages deploy .open-next/assets --project-name=medcomply --branch=main
+          workingDirectory: frontend
