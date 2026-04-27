@@ -39,10 +39,15 @@ jobs:
           NEXT_PUBLIC_AUTH_PROVIDER: ${{ secrets.NEXT_PUBLIC_AUTH_PROVIDER }}
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
+      - name: Copy worker to assets directory
+        working-directory: frontend
+        run: |
+          cp .open-next/worker.js .open-next/assets/_worker.js
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .open-next/assets --project-name=medcomply --branch=main
+          command: pages deploy .open-next/assets --project-name=medcomply --branch=main --commit-dirty=true
           workingDirectory: frontend
