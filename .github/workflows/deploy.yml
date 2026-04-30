@@ -1,8 +1,10 @@
+# NOTE: Cloudflare Workers frontend deploy is intentionally disabled.
+# The frontend is deployed via Vercel (medcomply.vercel.app),
+# and this workflow is kept inactive to avoid redundant failures after
+# deleting frontend/open-next.config.ts.
 name: Deploy to Cloudflare Workers
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
