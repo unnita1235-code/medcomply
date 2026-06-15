@@ -89,6 +89,7 @@ jobs:
         run: |
           docker build -t medcomply-web:ci \
             --build-arg NEXT_PUBLIC_API_URL=http://127.0.0.1:8000 \
+            --build-arg NEXT_PUBLIC_AUTH_PROVIDER=mock \
             ./frontend
 
       - name: Verify images
