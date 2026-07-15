@@ -1,5 +1,10 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-MedComply-brightgreen?style=for-the-badge)](https://medcomply.vercel.app/) [![Stack](https://img.shields.io/badge/Stack-FastAPI%20%7C%20Next.js%2015%20%7C%20LangChain-black?style=for-the-badge)](https://github.com/unnita1235-code/medcomply)
 
+
+## Live Preview
+
+[![MedComply Landing Page](https://image.thum.io/get/width/1280/https://medcomply.vercel.app/)](https://medcomply.vercel.app/)
+
 # MedComply — medical compliance SaaS (monorepo)
 
 This repository is arranged as a monorepo: `frontend` (Next.js 15, App Router, Tailwind, shadcn UI), `backend` (FastAPI under the `api` package), and `supabase` SQL migrations (organizations, app users, documents, and RBAC).
